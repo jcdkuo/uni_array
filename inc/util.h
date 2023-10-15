@@ -9,14 +9,14 @@
 /* Enum and Structure */
 
 /* Functions */
-int64_t current_unix_timestamp();
-int64_t convert_to_unix_timestamp(const char *time_str);
+time_t current_unix_timestamp();
+time_t convert_to_unix_timestamp(const char *time_str);
 
-char*   convert_unix_to_format(int64_t timestamp);
-char*   convert_unix_to_24hour(int64_t timestamp);
-char*   convert_unix_to_rfc3339(int64_t timestamp);
+char*   convert_unix_to_format(time_t timestamp);
+char*   convert_unix_to_24hour(time_t timestamp);
+char*   convert_unix_to_rfc3339(time_t timestamp);
 
-int     unix_timestamp_to_weekday(int64_t timestamp);
+int     unix_timestamp_to_weekday(time_t timestamp);
 
 void    clear_struct(void *struct_ptr, size_t struct_size);
 void    print_time_diff(clock_t start, const char *message);

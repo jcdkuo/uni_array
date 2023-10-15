@@ -52,6 +52,15 @@ void copy_uni_array(uni_array_t* source, uni_array_t* destination) {
     }
 }
 
+void print_uni_array(uni_array_t* array, void (*print_element)(void*)) {
+    for (size_t i = 0; i < array->count; i++) {
+        void* element = get_from_uni_array(array, i);
+        if (element != NULL) {
+            print_element(element);
+        }
+    }
+}
+
 void free_uni_array(uni_array_t* array) {
     free(array->data);
 }

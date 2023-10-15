@@ -1,18 +1,16 @@
 #include "uni.h"
 
-static const char *TAG = "UTIL";
-
 void clear_struct(void *struct_ptr, size_t struct_size) {
     memset(struct_ptr, 0, struct_size);
 }
 
-int64_t current_unix_timestamp() {
+time_t current_unix_timestamp() {
     time_t t;
     time(&t);
-    return (int64_t)t;
+    return t;
 }
 
-int64_t convert_to_unix_timestamp(const char *time_str) {
+time_t convert_to_unix_timestamp(const char *time_str) {
     struct tm tm = {0};
 
     sscanf(time_str, "%d-%d-%dT%d:%d:%d.%*3sZ",
@@ -24,10 +22,10 @@ int64_t convert_to_unix_timestamp(const char *time_str) {
 
     time_t unix_time = mktime(&tm);
 
-    return (int64_t)unix_time;
+    return unix_time;
 }
 
-char* convert_unix_to_format(int64_t timestamp) {
+char* convert_unix_to_format(time_t timestamp) {
     struct tm* timeinfo;
     timeinfo = gmtime(&timestamp);
 
@@ -37,7 +35,7 @@ char* convert_unix_to_format(int64_t timestamp) {
     return format;
 }
 
-char* convert_unix_to_24hour(int64_t timestamp) {
+char* convert_unix_to_24hour(time_t timestamp) {
     static char buffer[9];
     struct tm *tm_info = localtime(&timestamp);
     strftime(buffer, 9, "%H:%M:%S", tm_info);
@@ -45,7 +43,7 @@ char* convert_unix_to_24hour(int64_t timestamp) {
     return buffer;
 }
 
-char* convert_unix_to_rfc3339(int64_t timestamp) {
+char* convert_unix_to_rfc3339(time_t timestamp) {
     struct tm* timeinfo;
     timeinfo = gmtime(&timestamp);
 
@@ -55,7 +53,7 @@ char* convert_unix_to_rfc3339(int64_t timestamp) {
     return rfc3339;
 }
 
-int unix_timestamp_to_weekday(int64_t timestamp) {
+int unix_timestamp_to_weekday(time_t timestamp) {
     struct tm *tm_info;
     time_t t = timestamp;
     tm_info = localtime(&t);
