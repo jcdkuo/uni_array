@@ -1,27 +1,17 @@
 #include "uni.h"
 
-void print_int_element(void* element) {
-    int* int_ptr = (int*)element;
-    printf("%d \n", *int_ptr);
-}
-
-void print_double_element(void* element) {
-    double* double_ptr = (double*)element;
-    printf("%f \n", *double_ptr);
-}
-
 SCODE test_basic() {
 
     DEBUG("Hello World!\n");
     return S_OK;
 }
 
-
 void test_main() {
 
     test_basic();
     test_point();
     test_copy();
+    test_worker();
 
 }
 
@@ -76,6 +66,60 @@ SCODE test_copy() {
 
     free_uni_array(&arrayA);
     free_uni_array(&arrayB);
+
+    return S_OK;
+}
+
+SCODE test_worker() {
+    INFO("Example - Worker\n");
+
+    uni_array_t worker;
+    init_uni_array(&worker, sizeof(worker_t));
+
+    time_t current_time = current_unix_timestamp();
+    time_t ten_days_later = current_time + (10 * 24 * 60 * 60);
+
+    worker_t worker1 = {
+        .revision                   = 1690269167291067486,
+        .worker_id                  = "worker_id_01",
+        .worker_name                = "worker1",
+        .worker_alias               = "alias_worker1",
+        .worker_status              = "status_01",
+        .worker_type                = "user",
+        .worker_lifecycle_starttime = current_time,
+        .worker_lifecycle_endtime   = ten_days_later
+    };
+
+    worker_t worker2 = {
+        .revision                   = 1690269167291067486,
+        .worker_id                  = "worker_id_02",
+        .worker_name                = "worker2",
+        .worker_alias               = "alias_worker2",
+        .worker_status              = "status_02",
+        .worker_type                = "visitor",
+        .worker_lifecycle_starttime = current_time,
+        .worker_lifecycle_endtime   = ten_days_later
+    };
+
+    worker_t worker3 = {
+        .revision                   = 1690269167291067486,
+        .worker_id                  = "worker_id_03",
+        .worker_name                = "worker3",
+        .worker_alias               = "alias_worker3",
+        .worker_status              = "status_03",
+        .worker_type                = "user",
+        .worker_lifecycle_starttime = current_time,
+        .worker_lifecycle_endtime   = ten_days_later
+    };
+
+    push_to_uni_array(&worker, &worker1);
+    push_to_uni_array(&worker, &worker2);
+    push_to_uni_array(&worker, &worker3);
+    
+    print_uni_array(&worker, print_worker_element);
+    DEBUG("worker_ua count: %d\n", (int)worker.count);
+
+    free_uni_array(&worker);
 
     return S_OK;
 }
