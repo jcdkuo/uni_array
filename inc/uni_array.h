@@ -8,6 +8,7 @@ typedef struct {
     void* data;
     size_t size;
     size_t count;
+    size_t capacity;
 } uni_array_t;
 
 
